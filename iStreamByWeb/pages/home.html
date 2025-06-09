@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Explore movies and series on iStreamByWeb with personalized recommendations and watch later functionality"
+    />
+    <meta
+      name="keywords"
+      content="streaming, movies, series, entertainment, watch later"
+    />
+    <meta name="author" content="iStreamByWeb" />
+    <title>iStreamByWeb - Home</title>
+    <link rel="stylesheet" href="https://cdn.plyr.io/3.7.8/plyr.css" />
+    <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+      integrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+    <link rel="stylesheet" href="/css/home.css" />
+  </head>
+  <body>
+    <button class="hamburger" aria-label="Toggle sidebar">
+      <i class="fas fa-bars"></i>
+    </button>
+
+    <header class="header">
+      <div class="logo"><i class="fas fa-film"></i> iStreamByWeb</div>
+      <div class="header-actions">
+        <button class="theme-toggle tooltip" data-tooltip="Toggle Theme">
+          <i class="fas fa-moon"></i>
+        </button>
+        <button class="help-button tooltip" data-tooltip="How to Use">
+          <i class="fas fa-question-circle"></i>
+        </button>
+        <div class="user-profile">
+          <i class="fas fa-user-circle tooltip" data-tooltip="Profile"></i>
+          <div class="profile-dropdown">
+            <a href="/profile">Profile</a>
+            <a href="/settings">Settings</a>
+            <a href="/logout">Log Out</a>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <div class="sidebar">
+      <div
+        class="sidebar-item active tooltip"
+        data-tooltip="Home"
+        style="--i: 1"
+      >
+        <a href="home.html">
+          <div class="sidebar-icon"><i class="fas fa-home"></i></div>
+          <div class="sidebar-label">Home</div>
+        </a>
+      </div>
+      <div class="sidebar-item tooltip" data-tooltip="Discover" style="--i: 2">
+        <a href="discover.html">
+          <div class="sidebar-icon"><i class="fas fa-search"></i></div>
+          <div class="sidebar-label">Discover</div>
+        </a>
+      </div>
+      <div
+        class="sidebar-item tooltip"
+        data-tooltip="Watch Later"
+        style="--i: 3"
+      >
+        <a href="watch_later.html">
+          <div class="sidebar-icon"><i class="fas fa-clock"></i></div>
+          <div class="sidebar-label">Watch Later</div>
+        </a>
+      </div>
+      <div class="sidebar-item tooltip" data-tooltip="Settings" style="--i: 4">
+        <a href="settings.html">
+          <div class="sidebar-icon"><i class="fas fa-cog"></i></div>
+          <div class="sidebar-label">Settings</div>
+        </a>
+      </div>
+    </div>
+
+    <div class="main">
+      <section class="hero-banner">
+        <h1>Welcome to iStreamByWeb</h1>
+        <p>
+          Discover your next favorite movie or series with personalized
+          recommendations
+        </p>
+        <button class="carousel-item-overlay button" onclick="showTutorial()">
+          Get Started
+        </button>
+      </section>
+
+      <div class="search-bar">
+        <input
+          type="text"
+          class="search-input"
+          placeholder="Search movies, series, or paste a link"
+          aria-label="Search"
+        />
+        <i class="fas fa-search"></i>
+      </div>
+
+      <div class="section" style="--i: 1">
+        <div class="section-title">
+          <i class="fas fa-play"></i> Continue Watching
+        </div>
+        <button
+          class="nav-arrow left"
+          onclick="scrollCarousel('continue-watching', -300)"
+          aria-label="Previous items"
+        >
+          ❮
+        </button>
+        <button
+          class="nav-arrow right"
+          onclick="scrollCarousel('continue-watching', 300)"
+          aria-label="Next items"
+        >
+          ❯
+        </button>
+        <div class="carousel" id="continue-watching">
+          <div class="skeleton-card" style="--i: 1"></div>
+          <div class="skeleton-card" style="--i: 2"></div>
+          <div class="skeleton-card" style="--i: 3"></div>
+          <div class="skeleton-card" style="--i: 4"></div>
+        </div>
+        <div class="loading-spinner" id="continue-watching-spinner">
+          <i class="fas fa-spinner fa-spin" aria-hidden="true"></i>
+        </div>
+      </div>
+
+      <div class="section" style="--i: 2">
+        <div class="section-title">
+          <i class="fas fa-fire"></i> Popular Movies
+        </div>
+        <button
+          class="nav-arrow left"
+          onclick="scrollCarousel('popular-movies', -300)"
+          aria-label="Previous items"
+        >
+          ❮
+        </button>
+        <button
+          class="nav-arrow right"
+          onclick="scrollCarousel('popular-movies', 300)"
+          aria-label="Next items"
+        >
+          ❯
+        </button>
+        <div class="carousel" id="popular-movies">
+          <div class="skeleton-card" style="--i: 1"></div>
+          <div class="skeleton-card" style="--i: 2"></div>
+          <div class="skeleton-card" style="--i: 3"></div>
+          <div class="skeleton-card" style="--i: 4"></div>
+        </div>
+        <div class="loading-spinner" id="popular-movies-spinner">
+          <i class="fas fa-spinner fa-spin" aria-hidden="true"></i>
+        </div>
+      </div>
+
+      <div class="section" style="--i: 3">
+        <div class="section-title">
+          <i class="fas fa-tv"></i> Popular Series
+        </div>
+        <button
+          class="nav-arrow left"
+          onclick="scrollCarousel('popular-series', -300)"
+          aria-label="Previous items"
+        >
+          ❮
+        </button>
+        <button
+          class="nav-arrow right"
+          onclick="scrollCarousel('popular-series', 300)"
+          aria-label="Next items"
+        >
+          ❯
+        </button>
+        <div class="carousel" id="popular-series">
+          <div class="skeleton-card" style="--i: 1"></div>
+          <div class="skeleton-card" style="--i: 2"></div>
+          <div class="skeleton-card" style="--i: 3"></div>
+          <div class="skeleton-card" style="--i: 4"></div>
+        </div>
+        <div class="loading-spinner" id="popular-series-spinner">
+          <i class="fas fa-spinner fa-spin" aria-hidden="true"></i>
+        </div>
+      </div>
+
+      <div class="section" style="--i: 4">
+        <div class="section-title"><i class="fas fa-film"></i> New Movies</div>
+        <button
+          class="nav-arrow left"
+          onclick="scrollCarousel('new-movies', -300)"
+          aria-label="Previous items"
+        >
+          ❮
+        </button>
+        <button
+          class="nav-arrow right"
+          onclick="scrollCarousel('new-movies', 300)"
+          aria-label="Next items"
+        >
+          ❯
+        </button>
+        <div class="carousel" id="new-movies">
+          <div class="skeleton-card" style="--i: 1"></div>
+          <div class="skeleton-card" style="--i: 2"></div>
+          <div class="skeleton-card" style="--i: 3"></div>
+          <div class="skeleton-card" style="--i: 4"></div>
+        </div>
+        <div class="loading-spinner" id="new-movies-spinner">
+          <i class="fas fa-spinner fa-spin" aria-hidden="true"></i>
+        </div>
+      </div>
+
+      <div class="section" style="--i: 5">
+        <div class="section-title"><i class="fas fa-video"></i> New Series</div>
+        <button
+          class="nav-arrow left"
+          onclick="scrollCarousel('new-series', -300)"
+          aria-label="Previous items"
+        >
+          ❮
+        </button>
+        <button
+          class="nav-arrow right"
+          onclick="scrollCarousel('new-series', 300)"
+          aria-label="Next items"
+        >
+          ❯
+        </button>
+        <div class="carousel" id="new-series">
+          <div class="skeleton-card" style="--i: 1"></div>
+          <div class="skeleton-card" style="--i: 2"></div>
+          <div class="skeleton-card" style="--i: 3"></div>
+          <div class="skeleton-card" style="--i: 4"></div>
+        </div>
+        <div class="loading-spinner" id="new-series-spinner">
+          <i class="fas fa-spinner fa-spin" aria-hidden="true"></i>
+        </div>
+      </div>
+
+      <div class="bottom-nav">
+        <a href="home.html" class="nav-item active tooltip" data-tooltip="Home">
+          <div class="nav-icon"><i class="fas fa-home"></i></div>
+          <div>Home</div>
+        </a>
+        <a
+          href="discover.html"
+          class="nav-item tooltip"
+          data-tooltip="Discover"
+        >
+          <div class="nav-icon"><i class="fas fa-search"></i></div>
+          <div>Discover</div>
+        </a>
+        <a
+          href="watch_later.html"
+          class="nav-item tooltip"
+          data-tooltip="Watch Later"
+        >
+          <div class="nav-icon"><i class="fas fa-clock"></i></div>
+          <div>Watch Later</div>
+        </a>
+        <a
+          href="settings.html"
+          class="nav-item tooltip"
+          data-tooltip="Settings"
+        >
+          <div class="nav-icon"><i class="fas fa-cog"></i></div>
+          <div>Settings</div>
+        </a>
+      </div>
+
+      <button
+        class="back-to-top"
+        onclick="scrollToTop()"
+        aria-label="Back to top"
+      >
+        <i class="fas fa-chevron-up"></i>
+      </button>
+
+      <dialog
+        id="tutorial-modal"
+        class="tutorial-modal"
+        aria-label="How to use iStreamByWeb"
+      >
+        <h2>Welcome to iStreamByWeb!</h2>
+        <p>Here's how to get started:</p>
+        <ul>
+          <li>
+            <strong>Search:</strong> Use the search bar to find movies or series
+            by title or paste a direct link.
+          </li>
+          <li>
+            <strong>Carousels:</strong> Browse sections like "Continue Watching"
+            or "Popular Movies" using the arrow buttons or by dragging.
+          </li>
+          <li>
+            <strong>Watch Later:</strong> Add items to your Watch Later list and
+            sort/filter them.
+          </li>
+          <li>
+            <strong>Details:</strong> Click a poster to view detailed
+            information.
+          </li>
+          <li>
+            <strong>Sidebar:</strong> Navigate to other pages like Discover or
+            Settings using the sidebar (or bottom nav on mobile).
+          </li>
+          <li>
+            <strong>Profile:</strong> Click the user icon to access your profile
+            or log out.
+          </li>
+          <li>
+            <strong>Theme:</strong> Toggle between light and dark themes using
+            the moon/sun button.
+          </li>
+        </ul>
+        <p>Enjoy your streaming experience!</p>
+        <button onclick="closeTutorial()">Got It!</button>
+      </dialog>
+
+
+      <dialog
+        id="details-modal"
+        class="details-modal"
+        aria-label="Movie or Series Details"
+      >
+        <h2 id="details-title"></h2>
+        <img id="details-poster" alt="Poster" />
+        <p id="details-overview"></p>
+        <p><strong>Rating:</strong> <span id="details-rating"></span></p>
+        <p><strong>Release Date:</strong> <span id="details-release"></span></p>
+        <button
+          onclick="playTrailer()"
+          id="trailer-button"
+          style="display: none"
+        >
+          Play Trailer
+        </button>
+        <button onclick="document.getElementById('details-modal').close()">
+          Close
+        </button>
+      </dialog>
+
+      <dialog
+        id="trailer-modal"
+        class="trailer-modal"
+        aria-label="Trailer player"
+      >
+        <div class="trailer-modal-content">
+          <button
+            class="close"
+            onclick="closeTrailerModal()"
+            aria-label="Close trailer"
+          >
+            ×
+          </button>
+          <iframe
+            id="trailer-iframe"
+            width="100%"
+            height="450"
+            src=""
+            frameborder="0"
+            allowfullscreen
+          ></iframe>
+        </div>
+      </dialog>
+
+      <footer class="footer">
+        <p>© 2025 iStreamByWeb. All rights reserved.</p>
+        <div class="social-links">
+          <a href="#" class="tooltip" data-tooltip="Follow us on Twitter"
+            ><i class="fab fa-twitter"></i
+          ></a>
+          <a href="#" class="tooltip" data-tooltip="Join our Discord"
+            ><i class="fab fa-discord"></i
+          ></a>
+          <a href="#" class="tooltip" data-tooltip="Follow us on Instagram"
+            ><i class="fab fa-instagram"></i
+          ></a>
+        </div>
+      </footer>
+    </div>
+    <script src="https://cdn.plyr.io/3.7.8/plyr.js"></script>
+    <script src="/js/home.js"></script>
+  </body>
+</html>

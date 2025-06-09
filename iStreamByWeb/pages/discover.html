@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Discover and stream movies and TV shows on iStreamByWeb with personalized recommendations"
+    />
+    <meta
+      name="keywords"
+      content="movies, series, streaming, entertainment, video on demand"
+    />
+    <meta name="author" content="iStreamByWeb" />
+    <title>iStreamByWeb - Discover</title>
+    <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+      integrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+    <link rel="stylesheet" href="https://cdn.plyr.io/3.7.8/plyr.css" />
+    <link rel="stylesheet" href="/css/discover.css" />
+  </head>
+  <body>
+    <button class="hamburger" aria-label="Toggle sidebar">
+      <i class="fas fa-bars"></i>
+    </button>
+
+    <header class="header" aria-label="Site header">
+      <div class="logo"><i class="fas fa-search"></i> iStreamByWeb</div>
+      <div class="header-actions">
+        <button class="theme-toggle tooltip" data-tooltip="Toggle Theme">
+          <i class="fas fa-moon"></i>
+        </button>
+        <button class="help-button tooltip" data-tooltip="How to Use">
+          <i class="fas fa-question-circle"></i>
+        </button>
+        <div class="user-profile">
+          <i
+            class="fas fa-user-circle tooltip"
+            data-tooltip="Profile"
+            aria-label="User profile"
+          ></i>
+          <div class="profile-dropdown">
+            <a href="/profile">Profile</a>
+            <a href="/settings">Settings</a>
+            <a href="/logout">Log Out</a>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <nav class="sidebar" aria-label="Main navigation">
+      <div class="sidebar-item tooltip" data-tooltip="Home" style="--i: 1">
+        <a href="home.html">
+          <div class="sidebar-icon"><i class="fas fa-home"></i></div>
+          <div class="sidebar-label">Home</div>
+        </a>
+      </div>
+      <div
+        class="sidebar-item active tooltip"
+        data-tooltip="Discover"
+        style="--i: 2"
+      >
+        <a href="discover.html">
+          <div class="sidebar-icon"><i class="fas fa-search"></i></div>
+          <div class="sidebar-label">Discover</div>
+        </a>
+      </div>
+      <div
+        class="sidebar-item tooltip"
+        data-tooltip="Watch Later"
+        style="--i: 3"
+      >
+        <a href="watch_later.html">
+          <div class="sidebar-icon"><i class="fas fa-clock"></i></div>
+          <div class="sidebar-label">Watch Later</div>
+        </a>
+      </div>
+      <div class="sidebar-item tooltip" data-tooltip="Settings" style="--i: 4">
+        <a href="settings.html">
+          <div class="sidebar-icon"><i class="fas fa-cog"></i></div>
+          <div class="sidebar-label">Settings</div>
+        </a>
+      </div>
+    </nav>
+
+    <main class="main" aria-label="Main content">
+      <section class="hero-banner">
+        <h1>Discover New Favorites</h1>
+        <p>
+          Explore and stream trending movies and series curated just for you
+        </p>
+        <button class="movie-card-overlay button" onclick="showTutorial()">
+          Get Started
+        </button>
+      </section>
+
+      <div class="main-content-area">
+        <div class="content-wrapper">
+          <div class="search-bar">
+            <input
+              type="text"
+              class="search-input"
+              id="search-input"
+              placeholder="Search for a movie or series..."
+              aria-label="Search movies and series"
+            />
+            <i class="fas fa-search"></i>
+          </div>
+
+          <div class="filter-bar" role="toolbar">
+            <div class="filter-container">
+              <button
+                class="filter-button tooltip"
+                onclick="toggleDropdown(this)"
+                aria-haspopup="true"
+                aria-expanded="false"
+                data-tooltip="Type Options"
+              >
+                Type
+              </button>
+              <div class="dropdown-menu" role="menu">
+                <button onclick="filterByType('movie')" role="menuitem">
+                  Movies
+                </button>
+                <button onclick="filterByType('tv')" role="menuitem">
+                  Series
+                </button>
+              </div>
+            </div>
+            <div class="filter-container">
+              <button
+                class="filter-button tooltip"
+                onclick="toggleDropdown(this)"
+                aria-haspopup="true"
+                aria-expanded="false"
+                data-tooltip="Popularity Options"
+              >
+                Popularity
+              </button>
+              <div class="dropdown-menu" role="menu">
+                <button
+                  onclick="fetchMovies('movie/popular', 'movie-grid', 'movie')"
+                  role="menuitem"
+                >
+                  Popular Movies
+                </button>
+                <button
+                  onclick="fetchMovies('trending/movie/week', 'movie-grid', 'movie')"
+                  role="menuitem"
+                >
+                  Trending Movies
+                </button>
+                <button
+                  onclick="fetchMovies('movie/top_rated', 'movie-grid', 'movie')"
+                  role="menuitem"
+                >
+                  Top Rated Movies
+                </button>
+                <button
+                  onclick="fetchMovies('movie/now_playing', 'movie-grid', 'movie')"
+                  role="menuitem"
+                >
+                  Now Playing Movies
+                </button>
+                <button
+                  onclick="fetchMovies('tv/popular', 'movie-grid', 'series')"
+                  role="menuitem"
+                >
+                  Popular Series
+                </button>
+                <button
+                  onclick="fetchMovies('trending/tv/week', 'movie-grid', 'series')"
+                  role="menuitem"
+                >
+                  Trending Series
+                </button>
+                <button
+                  onclick="fetchMovies('tv/top_rated', 'movie-grid', 'series')"
+                  role="menuitem"
+                >
+                  Top Rated Series
+                </button>
+              </div>
+            </div>
+            <div class="filter-container">
+              <button
+                class="filter-button tooltip"
+                onclick="toggleDropdown(this)"
+                aria-haspopup="true"
+                aria-expanded="false"
+                data-tooltip="Provider Options"
+              >
+                Provider
+              </button>
+              <div class="dropdown-menu" role="menu">
+                <button onclick="filterByProvider(8)" role="menuitem">
+                  Netflix
+                </button>
+                <button onclick="filterByProvider(337)" role="menuitem">
+                  Disney Plus
+                </button>
+                <button onclick="filterByProvider(9)" role="menuitem">
+                  Amazon Prime Video
+                </button>
+                <button onclick="filterByProvider(350)" role="menuitem">
+                  Apple TV Plus
+                </button>
+                <button onclick="filterByProvider(384)" role="menuitem">
+                  HBO Max
+                </button>
+              </div>
+            </div>
+            <div class="filter-container">
+              <button
+                class="filter-button tooltip"
+                onclick="toggleDropdown(this)"
+                aria-haspopup="true"
+                aria-expanded="false"
+                data-tooltip="Genre Options"
+              >
+                Genre
+              </button>
+              <div class="dropdown-menu" id="genre-dropdown" role="menu"></div>
+            </div>
+            <button
+              class="filter-button filter-icon fas fa-filter tooltip"
+              onclick="openFilterModal()"
+              aria-label="Open filter options"
+              data-tooltip="More Filters"
+            ></button>
+          </div>
+
+          <section
+            class="movie-grid"
+            id="movie-grid"
+            aria-label="Movie and series grid"
+          >
+            <div class="skeleton-card" style="--i: 1"></div>
+            <div class="skeleton-card" style="--i: 2"></div>
+            <div class="skeleton-card" style="--i: 3"></div>
+            <div class="skeleton-card" style="--i: 4"></div>
+          </section>
+
+          <div class="loading-spinner" id="loading-spinner">
+            <i class="fas fa-spinner fa-spin" aria-hidden="true"></i>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <nav class="bottom-nav" aria-label="Mobile navigation">
+      <a
+        href="home.html"
+        class="nav-item tooltip"
+        data-tooltip="Home"
+        aria-label="Go to Home"
+      >
+        <div class="nav-icon"><i class="fas fa-home"></i></div>
+        <div>Home</div>
+      </a>
+      <a
+        href="discover.html"
+        class="nav-item active tooltip"
+        data-tooltip="Discover"
+        aria-label="Go to Discover"
+      >
+        <div class="nav-icon"><i class="fas fa-search"></i></div>
+        <div>Discover</div>
+      </a>
+      <a
+        href="watch_later.html"
+        class="nav-item tooltip"
+        data-tooltip="Watch Later"
+        aria-label="Go to Watch Later"
+      >
+        <div class="nav-icon"><i class="fas fa-clock"></i></div>
+        <div>Watch Later</div>
+      </a>
+      <a
+        href="settings.html"
+        class="nav-item tooltip"
+        data-tooltip="Settings"
+        aria-label="Go to Settings"
+      >
+        <div class="nav-icon"><i class="fas fa-cog"></i></div>
+        <div>Settings</div>
+      </a>
+    </nav>
+
+    <dialog id="filter-options-modal" class="modal" aria-label="Filter options">
+      <div class="modal-content">
+        <h2>Filter Options</h2>
+        <button onclick="closeFilterModal()" aria-label="Close modal">
+          Close
+        </button>
+        <button onclick="fetchMovies('movie/popular', 'movie-grid', 'movie')">
+          Popular Movies
+        </button>
+        <button
+          onclick="fetchMovies('trending/movie/week', 'movie-grid', 'movie')"
+        >
+          Trending Movies
+        </button>
+        <button onclick="fetchMovies('movie/top_rated', 'movie-grid', 'movie')">
+          Top Rated Movies
+        </button>
+        <button
+          onclick="fetchMovies('movie/now_playing', 'movie-grid', 'movie')"
+        >
+          Now Playing Movies
+        </button>
+        <button onclick="fetchMovies('tv/popular', 'movie-grid', 'series')">
+          Popular Series
+        </button>
+        <button
+          onclick="fetchMovies('trending/tv/week', 'movie-grid', 'series')"
+        >
+          Trending Series
+        </button>
+        <button onclick="fetchMovies('tv/top_rated', 'movie-grid', 'series')">
+          Top Rated Series
+        </button>
+        <div id="modal-genre-dropdown"></div>
+      </div>
+    </dialog>
+
+    <dialog
+      id="trailer-modal"
+      class="trailer-modal"
+      aria-label="Trailer player"
+    >
+      <div class="trailer-modal-content">
+        <button
+          class="close"
+          onclick="closeTrailerModal()"
+          aria-label="Close trailer"
+        >
+          ×
+        </button>
+        <iframe
+          id="trailer-iframe"
+          width="100%"
+          height="450"
+          src=""
+          frameborder="0"
+          allowfullscreen
+        ></iframe>
+      </div>
+    </dialog>
+
+
+    <dialog
+      id="details-modal"
+      class="details-modal"
+      aria-label="Movie or Series Details"
+    >
+      <h2 id="details-title"></h2>
+      <img id="details-poster" alt="Poster" />
+      <p id="details-overview"></p>
+      <p><strong>Rating:</strong> <span id="details-rating"></span></p>
+      <p><strong>Release Date:</strong> <span id="details-release"></span></p>
+      <button onclick="playTrailer()" id="trailer-button">Play Trailer</button>
+      <button onclick="document.getElementById('details-modal').close()">
+        Close
+      </button>
+    </dialog>
+
+    <dialog id="tutorial-modal" class="modal" aria-label="How to use Discover">
+      <h2>Discover on iStreamByWeb</h2>
+      <p>Here's how to use the Discover page:</p>
+      <ul>
+        <li>
+          <strong>Search:</strong> Type in the search bar to find movies or
+          series by title.
+        </li>
+        <li>
+          <strong>Filters:</strong> Use Type, Popularity, Provider, or Genre
+          filters to refine your results.
+        </li>
+        <li>
+          <strong>Play:</strong> Click "Play Movie/Series" to stream content
+          instantly.
+        </li>
+        <li>
+          <strong>Details:</strong> Click "View Details" to see more info or add
+          to Watch Later.
+        </li>
+        <li>
+          <strong>Trailer:</strong> Watch trailers from the details modal.
+        </li>
+        <li>
+          <strong>Navigation:</strong> Use the sidebar or bottom nav (mobile) to
+          switch pages.
+        </li>
+        <li>
+          <strong>Theme:</strong> Toggle light/dark mode with the theme button.
+        </li>
+      </ul>
+      <p>Start streaming now!</p>
+      <button onclick="closeTutorial()">Got It!</button>
+    </dialog>
+
+    <button
+      class="back-to-top"
+      onclick="scrollToTop()"
+      aria-label="Back to top"
+    >
+      <i class="fas fa-chevron-up"></i>
+    </button>
+
+    <footer class="footer" aria-label="Site footer">
+      <p>© 2025 iStreamByWeb. All rights reserved.</p>
+      <nav aria-label="Footer navigation">
+        <a href="/about">About</a> | <a href="/contact">Contact</a> |
+        <a href="/privacy">Privacy Policy</a>
+      </nav>
+    </footer>
+
+    <script src="https://cdn.plyr.io/3.7.8/plyr.js"></script>
+    <script src="/js/discover.js" defer></script>
+  </body>
+</html>

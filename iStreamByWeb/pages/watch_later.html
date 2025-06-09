@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="pt-PT">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Gira a sua lista Ver Mais Tarde no iStreamByWeb com ordenação e filtros personalizados"
+    />
+    <meta
+      name="keywords"
+      content="ver mais tarde, filmes, séries, streaming, entretenimento"
+    />
+    <meta name="author" content="iStreamByWeb" />
+    <title>iStreamByWeb - Ver Mais Tarde</title>
+    <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+      integrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+    <link rel="stylesheet" href="https://cdn.plyr.io/3.7.8/plyr.css" />
+    <link rel="stylesheet" href="/css/watch_later.css" />
+  </head>
+  <body>
+    <button
+      class="hamburger"
+      aria-label="Alternar barra lateral"
+      aria-expanded="false"
+    >
+      <i class="fas fa-bars"></i>
+    </button>
+
+    <header class="header" aria-label="Cabeçalho do site">
+      <div class="logo"><i class="fas fa-clock"></i> iStreamByWeb</div>
+      <div class="header-actions">
+        <button class="theme-toggle tooltip" data-tooltip="Alternar Tema">
+          <i class="fas fa-moon"></i>
+        </button>
+        <button class="help-button tooltip" data-tooltip="Como Usar">
+          <i class="fas fa-question-circle"></i>
+        </button>
+        <div class="user-profile">
+          <i
+            class="fas fa-user-circle tooltip"
+            data-tooltip="Perfil"
+            aria-label="Perfil do Utilizador"
+            aria-haspopup="true"
+            aria-expanded="false"
+          ></i>
+          <div class="profile-dropdown" role="menu">
+            <a href="/profile" role="menuitem">Perfil</a>
+            <a href="/settings" role="menuitem">Definições</a>
+            <a href="/logout" role="menuitem">Sair</a>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <nav class="sidebar" aria-label="Navegação principal">
+      <div class="sidebar-item tooltip" data-tooltip="Início" style="--i: 1">
+        <a href="home.html">
+          <div class="sidebar-icon"><i class="fas fa-home"></i></div>
+          <div class="sidebar-label">Início</div>
+        </a>
+      </div>
+      <div class="sidebar-item tooltip" data-tooltip="Descobrir" style="--i: 2">
+        <a href="discover.html">
+          <div class="sidebar-icon"><i class="fas fa-search"></i></div>
+          <div class="sidebar-label">Descobrir</div>
+        </a>
+      </div>
+      <div
+        class="sidebar-item active tooltip"
+        data-tooltip="Ver Mais Tarde"
+        style="--i: 3"
+      >
+        <a href="watch_later.html" aria-current="page">
+          <div class="sidebar-icon"><i class="fas fa-clock"></i></div>
+          <div class="sidebar-label">Ver Mais Tarde</div>
+        </a>
+      </div>
+      <div class="sidebar-item tooltip" data-tooltip="Definições" style="--i: 4">
+        <a href="settings.html">
+          <div class="sidebar-icon"><i class="fas fa-cog"></i></div>
+          <div class="sidebar-label">Definições</div>
+        </a>
+      </div>
+    </nav>
+
+    <main class="main" aria-label="Área de conteúdo principal">
+      <div class="search-bar">
+        <input
+          type="text"
+          class="search-input"
+          placeholder="Pesquisar na sua lista Ver Mais Tarde..."
+          id="search-input"
+          aria-label="Pesquisar na lista Ver Mais Tarde"
+        />
+        <i class="fas fa-search" aria-hidden="true"></i>
+      </div>
+
+      <div class="filter-bar" role="toolbar">
+        <div class="filter-container">
+          <button
+            class="filter-button tooltip"
+            onclick="toggleDropdown(this)"
+            data-tooltip="Opções de Ordenação"
+            aria-haspopup="true"
+            aria-expanded="false"
+          >
+            Ordenar Por
+          </button>
+          <div class="dropdown-menu" role="menu">
+            <button onclick="sortBy('title')" role="menuitem">Título</button>
+            <button onclick="sortBy('addedDate')" role="menuitem">
+              Data de Adição
+            </button>
+            <button onclick="sortBy('rating')" role="menuitem">
+              Classificação
+            </button>
+          </div>
+        </div>
+        <div class="filter-container">
+          <button
+            class="filter-button tooltip"
+            id="filter-type-button"
+            onclick="toggleDropdown(this)"
+            data-tooltip="Opções de Filtro"
+            aria-haspopup="true"
+            aria-expanded="false"
+          >
+            Filtro: Todos
+          </button>
+          <div class="dropdown-menu" role="menu" id="filter-type-dropdown">
+            <button
+              onclick="filterBy('all', this)"
+              data-filter-type="all"
+              role="menuitem"
+            >
+              Todos
+            </button>
+            <button
+              onclick="filterBy('movie', this)"
+              data-filter-type="movie"
+              role="menuitem"
+            >
+              Filmes
+            </button>
+            <button
+              onclick="filterBy('tv', this)"
+              data-filter-type="tv"
+              role="menuitem"
+            >
+              Séries
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <section
+        class="watch-later-grid"
+        id="watch-later-grid"
+        aria-live="polite"
+        aria-label="Itens para Ver Mais Tarde"
+      ></section>
+
+      <div
+        class="loading-spinner"
+        id="loading-spinner-watch-later"
+        style="
+          display: none;
+          position: fixed;
+          top: 50%;
+          left: 50%;
+          transform: translate(-50%, -50%);
+          font-size: 2rem;
+          color: var(--primary-color, #007bff);
+          z-index: 1010;
+        "
+      >
+        <i class="fas fa-spinner fa-spin" aria-hidden="true"></i>
+      </div>
+    </main>
+
+    <nav class="bottom-nav" aria-label="Navegação inferior móvel">
+      <a
+        href="home.html"
+        class="nav-item tooltip"
+        data-tooltip="Início"
+        aria-label="Ir para a página de Início"
+      >
+        <div class="nav-icon"><i class="fas fa-home"></i></div>
+        <div>Início</div>
+      </a>
+      <a
+        href="discover.html"
+        class="nav-item tooltip"
+        data-tooltip="Descobrir"
+        aria-label="Ir para a página Descobrir"
+      >
+        <div class="nav-icon"><i class="fas fa-search"></i></div>
+        <div>Descobrir</div>
+      </a>
+      <a
+        href="watch_later.html"
+        class="nav-item active tooltip"
+        data-tooltip="Ver Mais Tarde"
+        aria-current="page"
+        aria-label="Ir para a página Ver Mais Tarde"
+      >
+        <div class="nav-icon"><i class="fas fa-clock"></i></div>
+        <div>Ver Mais Tarde</div>
+      </a>
+      <a
+        href="settings.html"
+        class="nav-item tooltip"
+        data-tooltip="Definições"
+        aria-label="Ir para a página de Definições"
+      >
+        <div class="nav-icon"><i class="fas fa-cog"></i></div>
+        <div>Definições</div>
+      </a>
+    </nav>
+
+    <button
+      class="back-to-top"
+      onclick="scrollToTop()"
+      aria-label="Voltar ao topo"
+    >
+      <i class="fas fa-chevron-up"></i>
+    </button>
+
+    <dialog
+      id="tutorial-modal"
+      class="tutorial-modal modal"
+      aria-label="Como usar a lista Ver Mais Tarde"
+    >
+      <div class="modal-content">
+        <h2>Gerir a Sua Lista Ver Mais Tarde</h2>
+        <p>Como usar esta página:</p>
+        <ul>
+          <li>
+            <strong>Pesquisar:</strong> Use a barra de pesquisa para encontrar
+            itens.
+          </li>
+          <li>
+            <strong>Ordenar:</strong> Organize por título, data ou
+            classificação.
+          </li>
+          <li>
+            <strong>Filtrar:</strong> Mostre apenas filmes, séries ou todos.
+          </li>
+          <li>
+            <strong>Ações:</strong> Clique nos ícones dos cards para
+            reproduzir, ver detalhes ou remover.
+          </li>
+        </ul>
+        <button onclick="closeTutorial()" aria-label="Fechar tutorial">
+          Entendi!
+        </button>
+      </div>
+    </dialog>
+
+    <dialog
+      id="trailer-modal"
+      class="trailer-modal modal"
+      aria-label="Reprodutor de Trailer"
+    >
+      <div class="trailer-modal-content">
+        <button
+          class="close"
+          onclick="closeTrailerModal()"
+          aria-label="Fechar trailer"
+        >
+          ×
+        </button>
+        <iframe
+          id="trailer-iframe"
+          width="100%"
+          height="450"
+          src=""
+          frameborder="0"
+          allow="autoplay; fullscreen"
+          allowfullscreen
+          title="Reprodutor de Vídeo do Trailer"
+        ></iframe>
+      </div>
+    </dialog>
+
+
+    <dialog
+      id="details-modal"
+      class="details-modal modal"
+      aria-label="Detalhes do Filme ou Série"
+    >
+      <div class="details-modal-content">
+        <h2 id="details-title" style="margin-bottom: 10px"></h2>
+        <img
+          id="details-poster"
+          src=""
+          alt="Poster"
+          style="
+            max-width: 150px;
+            height: auto;
+            display: block;
+            margin: 0 auto 15px auto;
+            border-radius: 4px;
+          "
+        />
+        <div
+          id="details-info-scrollable"
+          style="
+            max-height: 30vh;
+            overflow-y: auto;
+            padding-right: 10px;
+            border-top: 1px solid #444;
+            padding-top: 10px;
+          "
+        >
+          <p style="margin-bottom: 8px">
+            <strong>Resumo:</strong>
+            <span id="details-overview" style="font-size: 0.9rem"></span>
+          </p>
+          <p style="margin-bottom: 5px">
+            <strong>Classificação:</strong> <span id="details-rating"></span>
+          </p>
+          <p style="margin-bottom: 5px">
+            <strong>Data de Lançamento:</strong>
+            <span id="details-release"></span>
+          </p>
+          <p style="margin-bottom: 5px">
+            <strong>Realizador(a):</strong>
+            <span id="details-director">N/A</span>
+          </p>
+          <p>
+            <strong>Elenco Principal:</strong>
+            <span id="details-cast">N/A</span>
+          </p>
+        </div>
+        <div style="margin-top: 20px; text-align: center">
+          <button
+            onclick="openTrailerModalFromDetails()"
+            id="details-trailer-button"
+            class="action-btn"
+            style="display: none; margin-right: 10px"
+          >
+            Ver Trailer
+          </button>
+          <button
+            onclick="document.getElementById('details-modal').close()"
+            class="action-btn"
+          >
+            Fechar
+          </button>
+        </div>
+      </div>
+    </dialog>
+    <footer class="footer">
+      <p>© 2025 iStreamByWeb. Todos os direitos reservados.</p>
+      <div class="social-links">
+        <a
+          href="#"
+          class="tooltip"
+          data-tooltip="Siga-nos no Twitter"
+          aria-label="Siga-nos no Twitter"
+          ><i class="fab fa-twitter"></i
+        ></a>
+        <a
+          href="#"
+          class="tooltip"
+          data-tooltip="Junte-se ao nosso Discord"
+          aria-label="Junte-se à nossa comunidade Discord"
+          ><i class="fab fa-discord"></i
+        ></a>
+        <a
+          href="#"
+          class="tooltip"
+          data-tooltip="Siga-nos no Instagram"
+          aria-label="Siga-nos no Instagram"
+          ><i class="fab fa-instagram"></i
+        ></a>
+      </div>
+    </footer>
+
+    <script src="https://cdn.plyr.io/3.7.8/plyr.js"></script>
+    <script src="/js/watch_later.js" defer></script>
+  </body>
+</html>

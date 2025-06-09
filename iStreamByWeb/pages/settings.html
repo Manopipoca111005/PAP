@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="iStreamByWeb Settings - Customize your streaming experience">
+    <meta name="keywords" content="streaming, settings, player, subtitles, language">
+    <meta name="author" content="iStreamByWeb">
+    <title>iStreamByWeb - Settings</title>
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+        integrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg=="
+        crossorigin="anonymous" referrerpolicy="no-referrer">
+    <link rel="stylesheet" href="/css/settings.css">
+</head>
+<body class="fade-in">
+    <button class="hamburger" aria-label="Toggle sidebar" style="display: none; position: fixed; top: 20px; left: 20px; z-index: 1001;">
+        <i class="fas fa-bars"></i>
+    </button>
+
+    <nav class="sidebar" aria-label="Main navigation">
+        <div class="sidebar-item tooltip" data-tooltip="Home" style="--i: 1;">
+            <a href="home.html">
+                <div class="sidebar-icon"><i class="fas fa-home"></i></div>
+                <div class="sidebar-label">Home</div>
+            </a>
+        </div>
+        <div class="sidebar-item active tooltip" data-tooltip="Discover" style="--i: 2;">
+            <a href="discover.html">
+                <div class="sidebar-icon"><i class="fas fa-search"></i></div>
+                <div class="sidebar-label">Discover</div>
+            </a>
+        </div>
+        <div class="sidebar-item tooltip" data-tooltip="Watch Later" style="--i: 3;">
+            <a href="watch_later.html">
+                <div class="sidebar-icon"><i class="fas fa-clock"></i></div>
+                <div class="sidebar-label">Watch Later</div>
+            </a>
+        </div>
+        <div class="sidebar-item tooltip" data-tooltip="Settings" style="--i: 4;">
+            <a href="settings.html">
+                <div class="sidebar-icon"><i class="fas fa-cog"></i></div>
+                <div class="sidebar-label">Settings</div>
+            </a>
+        </div>
+    </nav>
+
+    <div class="main-content">
+        <div class="search-container slide-in">
+            <input type="text" class="search-input" placeholder="Search or paste link" aria-label="Search">
+            <i class="fas fa-search" style="margin-right: 10px;"></i>
+        </div>
+
+        <button class="theme-toggle tooltip" data-tooltip="Toggle Theme">
+            <i class="fas fa-moon"></i>
+        </button>
+
+        <div class="settings-menu slide-in">
+            <div class="menu-item active" data-section="general" role="tab" aria-controls="general" aria-selected="true">General</div>
+            <div class="menu-item" data-section="player" role="tab" aria-controls="player" aria-selected="false">Player</div>
+            <div class="menu-item" data-section="streaming" role="tab" aria-controls="streaming" aria-selected="false">Streaming</div>
+            <div class="menu-item" data-section="shortcuts" role="tab" aria-controls="shortcuts" aria-selected="false">Shortcuts</div>
+        </div>
+
+        <div class="content-area">
+            <div class="general-content fade-in" id="general">
+                <div class="user-section">
+                    <div class="user-avatar tooltip" data-tooltip="User Profile"></div>
+                    <div class="user-info">
+                        <span class="user-email">gustavocramos111005@gmail.com</span>
+                        <a href="#" class="logout-link tooltip" data-tooltip="Sign out">Log out</a>
+                    </div>
+                </div>
+
+                <div class="settings-list">
+                    <a href="#" class="settings-item tooltip" data-tooltip="Download your data">Export user data</a>
+                    <a href="#" class="settings-item tooltip" data-tooltip="Get help">Contact support</a>
+                    <a href="#" class="settings-item tooltip" data-tooltip="View repository">Source code</a>
+                    <a href="#" class="settings-item tooltip" data-tooltip="Read terms">Terms of Service</a>
+                    <a href="#" class="settings-item tooltip" data-tooltip="Read policy">Privacy Policy</a>
+                    <a href="#" class="settings-item tooltip" data-tooltip="Delete account">Request account deletion</a>
+                    <a href="#" class="settings-item tooltip" data-tooltip="Update password">Change password</a>
+                </div>
+
+                <div class="trakt-section">
+                    <div class="trakt-left">
+                        <img src="https://via.placeholder.com/30" alt="Trakt" style="width: 30px; height: 30px; border-radius: 4px;">
+                        <span>Trakt Scrobbling</span>
+                    </div>
+                    <button class="authenticate-button tooltip" data-tooltip="Connect Trakt">Authenticate</button>
+                </div>
+
+                <div class="language-section">
+                    <div>UI Language</div>
+                    <select class="select language-select" aria-label="Select UI language">
+                        <option value="en">English</option>
+                        <option value="pt">Português</option>
+                        <option value="es">Español</option>
+                        <option value="fr">Français</option>
+                    </select>
+                </div>
+
+                <div class="version-info">
+                    App Version: 5.0.0-beta.18
+                </div>
+            </div>
+
+            <div class="player-content" id="player" style="display: none;">
+                <h2>Player Settings</h2>
+                <div class="loading-spinner" id="player-loading"></div>
+                <h3>Subtitles</h3>
+                <div class="default-subtitles-language">
+                    <p>Default Subtitles Language</p>
+                    <select class="select" aria-label="Default subtitles language">
+                        <option value="pt">Português</option>
+                        <option value="en">English</option>
+                        <option value="es">Español</option>
+                        <option value="fr">Français</option>
+                        <option value="de">Deutsch</option>
+                        <option value="it">Italiano</option>
+                        </select>
+                </div>
+                <div class="default-subtitle-size">
+                    <p>Default Subtitles Size</p>
+                    <select class="select" aria-label="Default subtitles size">
+                        <option value="75">75%</option>
+                        <option value="100">100%</option>
+                        <option value="125">125%</option>
+                        <option value="150">150%</option>
+                        <option value="175">175%</option>
+                        <option value="200">200%</option>
+                        <option value="250">250%</option>
+                    </select>
+                </div>
+                <div class="color-section">
+                    <p>Subtitle Color</p>
+                    <input type="color" id="subtitle-color" value="#ffffff" aria-label="Subtitle color">
+                    <p>Subtitle Background Color</p>
+                    <input type="color" id="subtitle-bg-color" value="#000000" aria-label="Subtitle background color">
+                    <p>Subtitle Outline Color</p>
+                    <input type="color" id="subtitle-outline-color" value="#000000" aria-label="Subtitle outline color">
+                </div>
+                <h3>Audio</h3>
+                <div class="default-audio-track">
+                    <p>Default Audio Track</p>
+                    <select class="select" aria-label="Default audio track">
+                        <option value="pt">Português</option>
+                        <option value="en">English</option>
+                        <option value="es">Español</option>
+                        <option value="fr">Français</option>
+                        </select>
+                </div>
+                <div class="toggle-container">
+                    <span class="toggle-label">Surround Sound</span>
+                    <label class="toggle-switch">
+                        <input type="checkbox" id="surround-sound">
+                        <span class="slider"></span>
+                    </label>
+                </div>
+                <div class="arrow-keys-seek-time">
+                    <p>Arrow Keys Seek Time</p>
+                    <select class="select" aria-label="Arrow keys seek time">
+                        <option value="3">3 seconds</option>
+                        <option value="5">5 seconds</option>
+                        <option value="10">10 seconds</option>
+                        <option value="15">15 seconds</option>
+                        <option value="20">20 seconds</option>
+                        <option value="30">30 seconds</option>
+                    </select>
+                </div>
+                <div class="arrow-keys-seek-time-when-shift-keys">
+                    <p>Arrow Keys Seek Time (Shift)</p>
+                    <select class="select" aria-label="Arrow keys seek time with shift">
+                        <option value="3">3 seconds</option>
+                        <option value="5">5 seconds</option>
+                        <option value="10">10 seconds</option>
+                        <option value="15">15 seconds</option>
+                        <option value="20">20 seconds</option>
+                        <option value="30">30 seconds</option>
+                    </select>
+                </div>
+                <div class="toggle-container">
+                    <span class="toggle-label">Play in Background</span>
+                    <label class="toggle-switch">
+                        <input type="checkbox" id="play-background">
+                        <span class="slider"></span>
+                    </label>
+                </div>
+                <h3>Auto-Play</h3>
+                <div class="toggle-container">
+                    <span class="toggle-label">Auto-Play Next Episode</span>
+                    <label class="toggle-switch">
+                        <input type="checkbox" id="auto-play">
+                        <span class="slider"></span>
+                    </label>
+                </div>
+                <div class="next-video-popup">
+                    <p>Next Video Popup Duration</p>
+                    <select class="select" aria-label="Next video popup duration">
+                        <option value="0">Disabled</option>
+                        <option value="5">5 seconds</option>
+                        <option value="10">10 seconds</option>
+                        <option value="15">15 seconds</option>
+                        <option value="20">20 seconds</option>
+                        </select>
+                </div>
+                <h3>Advanced</h3>
+                <div class="play-in-external-player">
+                    <p>Play in External Player</p>
+                    <select class="select" aria-label="External player">
+                        <option value="none">Disabled</option>
+                        <option value="m3u">M3U Playlist</option>
+                        <option value="vlc">VLC Player</option>
+                        <option value="mpc">Media Player Classic</option>
+                    </select>
+                </div>
+                <button class="btn save-settings" style="margin-top: 20px;">Save Settings</button>
+            </div>
+
+            <div class="streaming-content" id="streaming" style="display: none;">
+                <h1>Streaming</h1>
+                <div class="loading-spinner" id="streaming-loading"></div>
+                <div class="url-box">
+                    <div class="url-text">
+                        <span><i class="fas fa-link"></i></span>
+                        <span>http://127.0.0.1:11470/</span>
+                    </div>
+                    <div class="status">
+                        <div class="dot"></div>
+                        <span>Error</span>
+                    </div>
+                </div>
+                <div class="buttons">
+                    <button class="btn add tooltip" data-tooltip="Add new URL">+ Add URL</button>
+                    <button class="btn reload tooltip" data-tooltip="Refresh connection">Reload</button>
+                </div>
+            </div>
+
+            <div class="shortcuts-content" id="shortcuts" style="display: none;">
+                <h2>Keyboard Shortcuts</h2>
+                <div class="panel-header">
+                    <h3>Shortcut Guide</h3>
+                    <button class="btn" onclick="document.getElementById('shortcuts').style.display='none'">Close</button>
+                </div>
+                <div class="panel-content">
+                    <h3>Global Navigation</h3>
+                    <ul>
+                        <li><strong>F1:</strong> Go to Dashboard</li>
+                        <li><strong>F2:</strong> Go to Discover</li>
+                        <li><strong>F3:</strong> Go to Library</li>
+                        <li><strong>F4:</strong> Go to Calendar</li>
+                        <li><strong>Ctrl + ,:</strong> Open Settings</li>
+                        <li><strong>Esc:</strong> Go Back</li>
+                        <li><strong>F / F11:</strong> Toggle Fullscreen</li>
+                    </ul>
+                    <h3>Player Controls</h3>
+                    <ul>
+                        <li><strong>Space:</strong> Pause/Play</li>
+                        <li><strong>← / →:</strong> Seek Backward/Forward 10s</li>
+                        <li><strong>Shift + ← / →:</strong> Seek Backward/Forward 1m</li>
+                        <li><strong>↑ / ↓:</strong> Volume Up/Down</li>
+                        <li><strong>M:</strong> Mute/Unmute</li>
+                        <li><strong>S:</strong> Toggle Subtitles</li>
+                        <li><strong>A:</strong> Open Audio Menu</li>
+                    </ul>
+                    <h3>Tab Navigation</h3>
+                    <ul>
+                        <li><strong>Ctrl + Tab:</strong> Next Tab</li>
+                        <li><strong>Ctrl + Shift + Tab:</strong> Previous Tab</li>
+                        <li><strong>S:</strong> Focus Search</li>
+                    </ul>
+                    <h3>Other Features</h3>
+                    <ul>
+                        <li><strong>D:</strong> Show Playback Stats</li>
+                        <li><strong>I:</strong> Show Video Info</li>
+                        <li><strong>P:</strong> Toggle Player Modes</li>
+                        <li><strong>Ctrl + Shift + I:</strong> Open Dev Tools</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="/js/settings.js"></script>
+    <script src="/js/settings-ui.js"></script> </body>
+</html>

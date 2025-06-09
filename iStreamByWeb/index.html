@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Login or sign up to iStreamByWeb to stream your favorite movies and shows">
+    <meta name="keywords" content="streaming, movies, series, login, signup">
+    <meta name="author" content="iStreamByWeb">
+    <title>iStreamByWeb - Login & Signup</title>
+    <link rel="icon" type="image/x-icon" href="/favicon.ico"> <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+        integrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg=="
+        crossorigin="anonymous" referrerpolicy="no-referrer">
+    <link rel="stylesheet" href="https://cdn.plyr.io/3.7.8/plyr.css" />
+    <link rel="stylesheet" href="css/index.css"> <script src="https://cdn.tailwindcss.com"></script>
+    <script src="js/tailwind-config.js"></script> </head>
+<body class="text-white font-sans bg-gray-900"> <header class="w-full py-6 px-4 md:px-8 bg-opacity-80 bg-gray-900">
+        <div class="max-w-7xl mx-auto flex justify-between items-center">
+            <div class="flex items-center gap-3">
+                <span class="text-3xl">📺</span>
+                <h1 class="text-2xl font-bold">iStreamByWeb</h1>
+            </div>
+            <nav aria-label="Main navigation">
+                <a href="/about" class="text-gray-300 hover:text-white mx-4">About</a>
+                <a href="/contact" class="text-gray-300 hover:text-white mx-4">Contact</a>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container flex-grow flex items-center justify-center py-12">
+        <div class="max-w-md w-full space-y-8">
+            <div class="text-center">
+                <h2 class="text-4xl font-extrabold">Welcome to iStreamByWeb!</h2>
+                <p class="mt-2 text-gray-300">Freedom to Stream Your Favorites</p>
+            </div>
+
+            <div id="auth-section" class="form-card bg-gray-800 bg-opacity-90 p-8 rounded-2xl shadow-xl">
+                <div class="flex justify-center mb-6">
+                    <button id="login-tab" class="px-4 py-2 text-lg font-medium text-white border-b-2 border-primary-color hover:border-primary-color" aria-selected="true">Login</button>
+                    <button id="signup-tab" class="px-4 py-2 text-lg font-medium text-gray-400 border-b-2 border-transparent hover:border-primary-color" aria-selected="false">Sign Up</button>
+                </div>
+
+                <div id="login-form" class="space-y-6">
+                    <div>
+                        <label for="login-email" class="block text-sm font-medium">Email</label>
+                        <input id="login-email" type="email" required class="mt-1 w-full px-4 py-2 bg-gray-700 border border-gray-600 rounded-lg focus:ring-2 focus:ring-primary-color focus:border-transparent text-white" aria-describedby="email-error" placeholder="you@example.com">
+                        <p id="email-error" class="text-red-400 text-sm mt-1 hidden">Please enter a valid email</p>
+                    </div>
+                    <div>
+                        <label for="login-password" class="block text-sm font-medium">Password</label>
+                        <input id="login-password" type="password" required class="mt-1 w-full px-4 py-2 bg-gray-700 border border-gray-600 rounded-lg focus:ring-2 focus:ring-primary-color focus:border-transparent text-white" aria-describedby="password-error" placeholder="********">
+                        <p id="password-error" class="text-red-400 text-sm mt-1 hidden">Password must be at least 8 characters</p>
+                    </div>
+                    <button id="login-button" class="w-full py-3 bg-primary-color text-white rounded-lg hover:bg-opacity-90 social-button" aria-label="Login to your account">Login</button>
+                </div>
+
+                <div id="signup-form" class="space-y-6 hidden">
+                    <div>
+                        <label for="signup-name" class="block text-sm font-medium">Full Name</label>
+                        <input id="signup-name" type="text" required class="mt-1 w-full px-4 py-2 bg-gray-700 border border-gray-600 rounded-lg focus:ring-2 focus:ring-primary-color focus:border-transparent text-white" placeholder="Your Name">
+                    </div>
+                    <div>
+                        <label for="signup-email" class="block text-sm font-medium">Email</label>
+                        <input id="signup-email" type="email" required class="mt-1 w-full px-4 py-2 bg-gray-700 border border-gray-600 rounded-lg focus:ring-2 focus:ring-primary-color focus:border-transparent text-white" aria-describedby="signup-email-error" placeholder="you@example.com">
+                        <p id="signup-email-error" class="text-red-400 text-sm mt-1 hidden">Please enter a valid email</p>
+                    </div>
+                    <div>
+                        <label for="signup-password" class="block text-sm font-medium">Password</label>
+                        <input id="signup-password" type="password" required class="mt-1 w-full px-4 py-2 bg-gray-700 border border-gray-600 rounded-lg focus:ring-2 focus:ring-primary-color focus:border-transparent text-white" aria-describedby="signup-password-error" placeholder="Min. 8 characters">
+                        <p id="signup-password-error" class="text-red-400 text-sm mt-1 hidden">Password must be at least 8 characters</p>
+                    </div>
+                    <button id="signup-button" class="w-full py-3 bg-primary-color text-white rounded-lg hover:bg-opacity-90 social-button" aria-label="Create your account">Sign Up</button>
+                </div>
+
+                <div class="mt-6">
+                    <div class="relative">
+                        <div class="absolute inset-0 flex items-center">
+                            <div class="w-full border-t border-gray-600"></div>
+                        </div>
+                        <div class="relative flex justify-center text-sm">
+                            <span class="px-2 bg-gray-800 text-gray-400">Or continue with</span>
+                        </div>
+                    </div>
+                    <div class="mt-6 grid grid-cols-1 sm:grid-cols-2 gap-3">
+                        <button id="google-button" class="social-button flex items-center justify-center py-2 px-4 border border-gray-600 rounded-lg hover:bg-gray-700" aria-label="Continue with Google">
+                            <i class="fab fa-google mr-2"></i> Google
+                        </button>
+                        <button id="facebook-button" class="social-button flex items-center justify-center py-2 px-4 border border-gray-600 rounded-lg hover:bg-gray-700" aria-label="Continue with Facebook">
+                            <i class="fab fa-facebook-f mr-2"></i> Facebook
+                        </button>
+                    </div>
+                    <p id="auth-general-error" class="text-red-400 text-sm mt-4 text-center hidden"></p> </div>
+            </div>
+            
+            <p class="text-center text-gray-400 text-sm mt-4">
+                By continuing, you agree to our
+                <a href="/terms" class="text-primary-color hover:underline">Terms of Service</a> and
+                <a href="/privacy" class="text-primary-color hover:underline">Privacy Policy</a>
+            </p>
+        </div>
+    </main>
+
+    <footer class="w-full py-6 px-4 md:px-8 bg-gray-900 bg-opacity-80 mt-auto">
+        <div class="max-w-7xl mx-auto text-center text-gray-400">
+            <p>© 2025 iStreamByWeb. All rights reserved.</p>
+            <nav class="mt-2" aria-label="Footer navigation">
+                <a href="/terms" class="text-gray-300 hover:text-white mx-2">Terms</a>
+                <a href="/privacy" class="text-gray-300 hover:text-white mx-2">Privacy</a>
+                <a href="/contact" class="text-gray-300 hover:text-white mx-2">Contact</a>
+            </nav>
+        </div>
+    </footer>
+
+    <script src="https://cdn.plyr.io/3.7.8/plyr.js" defer></script>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const loginTab = document.getElementById('login-tab');
+            const signupTab = document.getElementById('signup-tab');
+            const loginForm = document.getElementById('login-form');
+            const signupForm = document.getElementById('signup-form');
+            const emailError = document.getElementById('email-error');
+            const passwordError = document.getElementById('password-error');
+            const signupEmailError = document.getElementById('signup-email-error');
+            const signupPasswordError = document.getElementById('signup-password-error');
+            const authGeneralError = document.getElementById('auth-general-error');
+
+
+            function clearErrors() {
+                if (emailError) emailError.classList.add('hidden');
+                if (passwordError) passwordError.classList.add('hidden');
+                if (signupEmailError) signupEmailError.classList.add('hidden');
+                if (signupPasswordError) signupPasswordError.classList.add('hidden');
+                if (authGeneralError) authGeneralError.classList.add('hidden');
+            }
+
+            if (loginTab && signupTab && loginForm && signupForm) {
+                loginTab.addEventListener('click', () => {
+                    loginForm.classList.remove('hidden');
+                    signupForm.classList.add('hidden');
+                    loginTab.setAttribute('aria-selected', 'true');
+                    loginTab.classList.add('text-white', 'border-primary-color');
+                    loginTab.classList.remove('text-gray-400', 'border-transparent');
+                    signupTab.setAttribute('aria-selected', 'false');
+                    signupTab.classList.add('text-gray-400', 'border-transparent');
+                    signupTab.classList.remove('text-white', 'border-primary-color');
+                    clearErrors();
+                });
+
+                signupTab.addEventListener('click', () => {
+                    signupForm.classList.remove('hidden');
+                    loginForm.classList.add('hidden');
+                    signupTab.setAttribute('aria-selected', 'true');
+                    signupTab.classList.add('text-white', 'border-primary-color');
+                    signupTab.classList.remove('text-gray-400', 'border-transparent');
+                    loginTab.setAttribute('aria-selected', 'false');
+                    loginTab.classList.add('text-gray-400', 'border-transparent');
+                    loginTab.classList.remove('text-white', 'border-primary-color');
+                    clearErrors();
+                });
+            }
+        });
+    </script>
+    
+    <script type="module" src="js/index.js"></script> 
+</body>
+</html>
