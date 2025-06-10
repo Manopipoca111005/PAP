@@ -187,8 +187,8 @@ function displayWatchLaterItems(itemsToDisplayOnGrid) {
             </div>
             <div class="watch-later-card-actions">
                 <button class="action-btn play-btn" title="Reproduzir ${itemTitle}" aria-label="Reproduzir ${itemTitle}">Play</button>
-                <button class="action-btn details-btn" title="Ver detalhes de ${itemTitle}" aria-label="Ver detalhes de ${itemTitle}">Detalhes</button>
-                <button class="action-btn remove-btn" title="Remover ${itemTitle}" aria-label="Remover ${itemTitle} da lista">Remover</button>
+                <button class="action-btn details-btn" title="Ver detalhes de ${itemTitle}" aria-label="Ver detalhes de ${itemTitle}">View Details</button>
+                <button class="action-btn remove-btn" title="Remover ${itemTitle}" aria-label="Remover ${itemTitle} da lista">Remove</button>
             </div>`;
         
         card.querySelector(".play-btn")?.addEventListener("click", (e) => { e.stopPropagation(); playWatchLaterItem(item); });
@@ -212,7 +212,6 @@ async function playWatchLaterItem(item) {
     let imdbIdToPlay = item.imdb_id;
     if (!imdbIdToPlay) {
         try {
-            // CORREÇÃO AQUI: URL do fetch corrigido
             const response = await fetch(`${TMDB_BASE_URL}/${item.type}/${item.id}/external_ids?api_key=${TMDB_API_KEY}`);
             if (!response.ok) throw new Error('Falha ao obter IDs externos');
             const externalIdsData = await response.json();

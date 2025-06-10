@@ -1,18 +1,18 @@
 <!DOCTYPE html>
-<html lang="pt-PT">
+<html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta
       name="description"
-      content="Gira a sua lista Ver Mais Tarde no iStreamByWeb com ordenação e filtros personalizados"
+      content="Manage your Watch Later list on iStreamByWeb with sorting and filtering options"
     />
     <meta
       name="keywords"
-      content="ver mais tarde, filmes, séries, streaming, entretenimento"
+      content="watch later, movies, series, streaming, entertainment"
     />
     <meta name="author" content="iStreamByWeb" />
-    <title>iStreamByWeb - Ver Mais Tarde</title>
+    <title>iStreamByWeb - Watch Later</title>
     <link rel="icon" type="image/x-icon" href="/favicon.ico" />
     <link
       rel="stylesheet"
@@ -25,79 +25,75 @@
     <link rel="stylesheet" href="/css/watch_later.css" />
   </head>
   <body>
-    <button
-      class="hamburger"
-      aria-label="Alternar barra lateral"
-      aria-expanded="false"
-    >
+    <button class="hamburger" aria-label="Toggle sidebar" aria-expanded="false">
       <i class="fas fa-bars"></i>
     </button>
 
-    <header class="header" aria-label="Cabeçalho do site">
+    <header class="header" aria-label="Site Header">
       <div class="logo"><i class="fas fa-clock"></i> iStreamByWeb</div>
       <div class="header-actions">
-        <button class="theme-toggle tooltip" data-tooltip="Alternar Tema">
+        <button class="theme-toggle tooltip" data-tooltip="Toggle Theme">
           <i class="fas fa-moon"></i>
         </button>
-        <button class="help-button tooltip" data-tooltip="Como Usar">
+        <button class="help-button tooltip" data-tooltip="How to Use">
           <i class="fas fa-question-circle"></i>
         </button>
         <div class="user-profile">
           <i
             class="fas fa-user-circle tooltip"
-            data-tooltip="Perfil"
-            aria-label="Perfil do Utilizador"
+            data-tooltip="Profile"
+            aria-label="User Profile"
             aria-haspopup="true"
             aria-expanded="false"
           ></i>
           <div class="profile-dropdown" role="menu">
-            <a href="/profile" role="menuitem">Perfil</a>
-            <a href="/settings" role="menuitem">Definições</a>
-            <a href="/logout" role="menuitem">Sair</a>
+            <a href="/profile" role="menuitem">Profile</a>
+            <a href="/settings" role="menuitem">Settings</a>
+            <a href="/logout" role="menuitem">Logout</a>
           </div>
         </div>
       </div>
     </header>
 
-    <nav class="sidebar" aria-label="Navegação principal">
-      <div class="sidebar-item tooltip" data-tooltip="Início" style="--i: 1">
+    <nav class="sidebar" aria-label="Main Navigation">
+      <div class="sidebar-item tooltip" data-tooltip="Home" style="--i: 1">
         <a href="home.html">
           <div class="sidebar-icon"><i class="fas fa-home"></i></div>
-          <div class="sidebar-label">Início</div>
+          <div class="sidebar-label">Home</div>
         </a>
       </div>
-      <div class="sidebar-item tooltip" data-tooltip="Descobrir" style="--i: 2">
+      <div class="sidebar-item tooltip" data-tooltip="Discover" style="--i: 2">
         <a href="discover.html">
           <div class="sidebar-icon"><i class="fas fa-search"></i></div>
-          <div class="sidebar-label">Descobrir</div>
+          <div class="sidebar-label">Discover</div>
         </a>
       </div>
       <div
         class="sidebar-item active tooltip"
-        data-tooltip="Ver Mais Tarde"
+        data-tooltip="Watch Later"
         style="--i: 3"
       >
         <a href="watch_later.html" aria-current="page">
           <div class="sidebar-icon"><i class="fas fa-clock"></i></div>
-          <div class="sidebar-label">Ver Mais Tarde</div>
+          <div class="sidebar-label">Watch Later</div>
         </a>
       </div>
-      <div class="sidebar-item tooltip" data-tooltip="Definições" style="--i: 4">
+      <div class="sidebar-item tooltip" data-tooltip="Settings" style="--i: 4">
         <a href="settings.html">
           <div class="sidebar-icon"><i class="fas fa-cog"></i></div>
-          <div class="sidebar-label">Definições</div>
+          <div class="sidebar-label">Settings</div>
         </a>
       </div>
     </nav>
 
-    <main class="main" aria-label="Área de conteúdo principal">
+    <main class="main" aria-label="Main Content Area">
       <div class="search-bar">
         <input
           type="text"
           class="search-input"
-          placeholder="Pesquisar na sua lista Ver Mais Tarde..."
+          placeholder="Search your Watch Later list..."
           id="search-input"
-          aria-label="Pesquisar na lista Ver Mais Tarde"
+          aria-label="Search in Watch Later list"
         />
         <i class="fas fa-search" aria-hidden="true"></i>
       </div>
@@ -107,19 +103,19 @@
           <button
             class="filter-button tooltip"
             onclick="toggleDropdown(this)"
-            data-tooltip="Opções de Ordenação"
+            data-tooltip="Sort Options"
             aria-haspopup="true"
             aria-expanded="false"
           >
-            Ordenar Por
+            Sort By
           </button>
           <div class="dropdown-menu" role="menu">
-            <button onclick="sortBy('title')" role="menuitem">Título</button>
+            <button onclick="sortBy('title')" role="menuitem">Title</button>
             <button onclick="sortBy('addedDate')" role="menuitem">
-              Data de Adição
+              Date Added
             </button>
             <button onclick="sortBy('rating')" role="menuitem">
-              Classificação
+              Rating
             </button>
           </div>
         </div>
@@ -128,33 +124,21 @@
             class="filter-button tooltip"
             id="filter-type-button"
             onclick="toggleDropdown(this)"
-            data-tooltip="Opções de Filtro"
+            data-tooltip="Filter Options"
             aria-haspopup="true"
             aria-expanded="false"
           >
-            Filtro: Todos
+            Filter: All
           </button>
           <div class="dropdown-menu" role="menu" id="filter-type-dropdown">
-            <button
-              onclick="filterBy('all', this)"
-              data-filter-type="all"
-              role="menuitem"
-            >
-              Todos
+            <button onclick="filterBy('all', this)" data-filter-type="all" role="menuitem">
+              All
             </button>
-            <button
-              onclick="filterBy('movie', this)"
-              data-filter-type="movie"
-              role="menuitem"
-            >
-              Filmes
+            <button onclick="filterBy('movie', this)" data-filter-type="movie" role="menuitem">
+              Movies
             </button>
-            <button
-              onclick="filterBy('tv', this)"
-              data-filter-type="tv"
-              role="menuitem"
-            >
-              Séries
+            <button onclick="filterBy('tv', this)" data-filter-type="tv" role="menuitem">
+              Series
             </button>
           </div>
         </div>
@@ -164,7 +148,7 @@
         class="watch-later-grid"
         id="watch-later-grid"
         aria-live="polite"
-        aria-label="Itens para Ver Mais Tarde"
+        aria-label="Watch Later Items"
       ></section>
 
       <div
@@ -185,98 +169,67 @@
       </div>
     </main>
 
-    <nav class="bottom-nav" aria-label="Navegação inferior móvel">
+    <nav class="bottom-nav" aria-label="Mobile Bottom Navigation">
       <a
         href="home.html"
         class="nav-item tooltip"
-        data-tooltip="Início"
-        aria-label="Ir para a página de Início"
+        data-tooltip="Home"
+        aria-label="Go to Home page"
       >
         <div class="nav-icon"><i class="fas fa-home"></i></div>
-        <div>Início</div>
+        <div>Home</div>
       </a>
       <a
         href="discover.html"
         class="nav-item tooltip"
-        data-tooltip="Descobrir"
-        aria-label="Ir para a página Descobrir"
+        data-tooltip="Discover"
+        aria-label="Go to Discover page"
       >
         <div class="nav-icon"><i class="fas fa-search"></i></div>
-        <div>Descobrir</div>
+        <div>Discover</div>
       </a>
       <a
         href="watch_later.html"
         class="nav-item active tooltip"
-        data-tooltip="Ver Mais Tarde"
+        data-tooltip="Watch Later"
         aria-current="page"
-        aria-label="Ir para a página Ver Mais Tarde"
+        aria-label="Go to Watch Later page"
       >
         <div class="nav-icon"><i class="fas fa-clock"></i></div>
-        <div>Ver Mais Tarde</div>
+        <div>Watch Later</div>
       </a>
       <a
         href="settings.html"
         class="nav-item tooltip"
-        data-tooltip="Definições"
-        aria-label="Ir para a página de Definições"
+        data-tooltip="Settings"
+        aria-label="Go to Settings page"
       >
         <div class="nav-icon"><i class="fas fa-cog"></i></div>
-        <div>Definições</div>
+        <div>Settings</div>
       </a>
     </nav>
 
-    <button
-      class="back-to-top"
-      onclick="scrollToTop()"
-      aria-label="Voltar ao topo"
-    >
+    <button class="back-to-top" onclick="scrollToTop()" aria-label="Back to top">
       <i class="fas fa-chevron-up"></i>
     </button>
 
-    <dialog
-      id="tutorial-modal"
-      class="tutorial-modal modal"
-      aria-label="Como usar a lista Ver Mais Tarde"
-    >
+    <dialog id="tutorial-modal" class="tutorial-modal modal" aria-label="How to use the Watch Later list">
       <div class="modal-content">
-        <h2>Gerir a Sua Lista Ver Mais Tarde</h2>
-        <p>Como usar esta página:</p>
+        <h2>Manage Your Watch Later List</h2>
+        <p>How to use this page:</p>
         <ul>
-          <li>
-            <strong>Pesquisar:</strong> Use a barra de pesquisa para encontrar
-            itens.
-          </li>
-          <li>
-            <strong>Ordenar:</strong> Organize por título, data ou
-            classificação.
-          </li>
-          <li>
-            <strong>Filtrar:</strong> Mostre apenas filmes, séries ou todos.
-          </li>
-          <li>
-            <strong>Ações:</strong> Clique nos ícones dos cards para
-            reproduzir, ver detalhes ou remover.
-          </li>
+          <li><strong>Search:</strong> Use the search bar to find items.</li>
+          <li><strong>Sort:</strong> Organize by title, date, or rating.</li>
+          <li><strong>Filter:</strong> Show only movies, series, or all items.</li>
+          <li><strong>Actions:</strong> Click on card icons to play, view details, or remove.</li>
         </ul>
-        <button onclick="closeTutorial()" aria-label="Fechar tutorial">
-          Entendi!
-        </button>
+        <button onclick="closeTutorial()" aria-label="Close tutorial">Got it!</button>
       </div>
     </dialog>
 
-    <dialog
-      id="trailer-modal"
-      class="trailer-modal modal"
-      aria-label="Reprodutor de Trailer"
-    >
+    <dialog id="trailer-modal" class="trailer-modal modal" aria-label="Trailer Player">
       <div class="trailer-modal-content">
-        <button
-          class="close"
-          onclick="closeTrailerModal()"
-          aria-label="Fechar trailer"
-        >
-          ×
-        </button>
+        <button class="close" onclick="closeTrailerModal()" aria-label="Close trailer">×</button>
         <iframe
           id="trailer-iframe"
           width="100%"
@@ -285,60 +238,29 @@
           frameborder="0"
           allow="autoplay; fullscreen"
           allowfullscreen
-          title="Reprodutor de Vídeo do Trailer"
+          title="Trailer Video Player"
         ></iframe>
       </div>
     </dialog>
 
-
-    <dialog
-      id="details-modal"
-      class="details-modal modal"
-      aria-label="Detalhes do Filme ou Série"
-    >
+    <dialog id="details-modal" class="details-modal modal" aria-label="Movie or Series Details">
       <div class="details-modal-content">
         <h2 id="details-title" style="margin-bottom: 10px"></h2>
         <img
           id="details-poster"
           src=""
           alt="Poster"
-          style="
-            max-width: 150px;
-            height: auto;
-            display: block;
-            margin: 0 auto 15px auto;
-            border-radius: 4px;
-          "
+          style="max-width: 150px; height: auto; display: block; margin: 0 auto 15px auto; border-radius: 4px;"
         />
         <div
           id="details-info-scrollable"
-          style="
-            max-height: 30vh;
-            overflow-y: auto;
-            padding-right: 10px;
-            border-top: 1px solid #444;
-            padding-top: 10px;
-          "
+          style="max-height: 30vh; overflow-y: auto; padding-right: 10px; border-top: 1px solid #444; padding-top: 10px;"
         >
-          <p style="margin-bottom: 8px">
-            <strong>Resumo:</strong>
-            <span id="details-overview" style="font-size: 0.9rem"></span>
-          </p>
-          <p style="margin-bottom: 5px">
-            <strong>Classificação:</strong> <span id="details-rating"></span>
-          </p>
-          <p style="margin-bottom: 5px">
-            <strong>Data de Lançamento:</strong>
-            <span id="details-release"></span>
-          </p>
-          <p style="margin-bottom: 5px">
-            <strong>Realizador(a):</strong>
-            <span id="details-director">N/A</span>
-          </p>
-          <p>
-            <strong>Elenco Principal:</strong>
-            <span id="details-cast">N/A</span>
-          </p>
+          <p style="margin-bottom: 8px"><strong>Overview:</strong> <span id="details-overview" style="font-size: 0.9rem"></span></p>
+          <p style="margin-bottom: 5px"><strong>Rating:</strong> <span id="details-rating"></span></p>
+          <p style="margin-bottom: 5px"><strong>Release Date:</strong> <span id="details-release"></span></p>
+          <p style="margin-bottom: 5px"><strong>Director:</strong> <span id="details-director">N/A</span></p>
+          <p><strong>Main Cast:</strong> <span id="details-cast">N/A</span></p>
         </div>
         <div style="margin-top: 20px; text-align: center">
           <button
@@ -347,41 +269,25 @@
             class="action-btn"
             style="display: none; margin-right: 10px"
           >
-            Ver Trailer
+            Play Trailer
           </button>
-          <button
-            onclick="document.getElementById('details-modal').close()"
-            class="action-btn"
-          >
-            Fechar
-          </button>
+          <button onclick="document.getElementById('details-modal').close()" class="action-btn">Close</button>
         </div>
       </div>
     </dialog>
+
     <footer class="footer">
-      <p>© 2025 iStreamByWeb. Todos os direitos reservados.</p>
+      <p>© 2025 iStreamByWeb. All rights reserved.</p>
       <div class="social-links">
-        <a
-          href="#"
-          class="tooltip"
-          data-tooltip="Siga-nos no Twitter"
-          aria-label="Siga-nos no Twitter"
-          ><i class="fab fa-twitter"></i
-        ></a>
-        <a
-          href="#"
-          class="tooltip"
-          data-tooltip="Junte-se ao nosso Discord"
-          aria-label="Junte-se à nossa comunidade Discord"
-          ><i class="fab fa-discord"></i
-        ></a>
-        <a
-          href="#"
-          class="tooltip"
-          data-tooltip="Siga-nos no Instagram"
-          aria-label="Siga-nos no Instagram"
-          ><i class="fab fa-instagram"></i
-        ></a>
+        <a href="#" class="tooltip" data-tooltip="Follow us on Twitter" aria-label="Follow us on Twitter">
+          <i class="fab fa-twitter"></i>
+        </a>
+        <a href="#" class="tooltip" data-tooltip="Join our Discord" aria-label="Join our Discord community">
+          <i class="fab fa-discord"></i>
+        </a>
+        <a href="#" class="tooltip" data-tooltip="Follow us on Instagram" aria-label="Follow us on Instagram">
+          <i class="fab fa-instagram"></i>
+        </a>
       </div>
     </footer>
 

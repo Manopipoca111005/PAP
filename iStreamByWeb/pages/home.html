@@ -374,6 +374,23 @@
         </div>
       </dialog>
 
+      <dialog id="series-modal" class="details-modal" aria-label="Select Episode">
+        <h2 id="series-modal-title">Select Episode</h2>
+        <div class="series-selection-container">
+          <div class="seasons-container">
+            <h3>Seasons</h3>
+            <div id="seasons-list"></div>
+          </div>
+          <div class="episodes-container">
+            <h3>Episodes</h3>
+            <div id="episodes-list">
+              <p>Please select a season first.</p>
+            </div>
+          </div>
+        </div>
+        <button onclick="document.getElementById('series-modal').close()">Close</button>
+      </dialog>
+
       <footer class="footer">
         <p>© 2025 iStreamByWeb. All rights reserved.</p>
         <div class="social-links">
