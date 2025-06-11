@@ -70,6 +70,12 @@ body {
   animation: glowHeader 2s infinite;
 }
 
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
 @keyframes glowHeader {
   0% {
     box-shadow: 0 0 10px var(--primary-color);
@@ -112,10 +118,9 @@ body {
 }
 
 .user-profile {
+  position: relative;
   display: flex;
   align-items: center;
-  gap: 1rem;
-  position: relative;
 }
 
 .user-profile .fa-user-circle {
@@ -176,10 +181,9 @@ body {
     var(--accent-color)
   );
   padding: 0.5rem 0.5rem 0 0.5rem;
-
   position: fixed;
   top: 65px;
-  height: 100vh;
+  height: calc(100vh - 65px);
   transition: transform 0.3s ease;
   box-shadow: var(--shadow);
   z-index: 999;
@@ -187,6 +191,7 @@ body {
   flex-direction: column;
   align-items: center;
   gap: 2rem;
+  justify-content: center;
 }
 
 .sidebar-item {
@@ -218,6 +223,10 @@ body {
   background: var(--primary-color);
   transform: scale(1.1);
   width: 100%;
+}
+
+.sidebar-item a {
+  text-decoration: none;
 }
 
 .sidebar-icon {
@@ -672,8 +681,6 @@ body {
 
 .theme-toggle,
 .help-button {
-  position: fixed;
-  top: 20px;
   background: var(--accent-color);
   color: var(--text-color);
   border: none;
@@ -683,14 +690,6 @@ body {
   transition: all 0.3s ease;
   z-index: 1001;
   box-shadow: var(--shadow);
-}
-
-.theme-toggle {
-  right: 70px;
-}
-
-.help-button {
-  right: 20px;
 }
 
 .theme-toggle:hover,
@@ -938,9 +937,15 @@ body {
     gap: 0.3rem;
   }
   
+  .hero-banner {
+    padding: 30px 15px;
+    text-align: center;
+  }
+
   .hero-banner h1 {
     font-size: 1.8rem;
   }
+
   .hero-banner p {
     font-size: 1rem;
   }

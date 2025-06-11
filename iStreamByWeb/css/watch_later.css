@@ -65,6 +65,12 @@ body {
   animation: glowHeader 2s infinite;
 }
 
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+}
+
 @keyframes glowHeader {
   0% {
     box-shadow: 0 0 10px var(--primary-color);
@@ -109,7 +115,6 @@ body {
 .user-profile {
   display: flex;
   align-items: center;
-  gap: 1rem;
   position: relative;
 }
 
@@ -170,17 +175,17 @@ body {
     var(--secondary-color),
     var(--accent-color)
   );
-  padding: 0.5rem 0.5rem 0 0.5rem;
-
+  padding: 0.5rem;
   position: fixed;
   top: 65px;
-  height: 100vh;
+  height: calc(100vh - 65px);
   transition: transform 0.3s ease;
   box-shadow: var(--shadow);
   z-index: 999;
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: center;
   gap: 2rem;
 }
 
@@ -191,6 +196,10 @@ body {
   transition: all 0.3s ease;
   animation: fireworkItem 0.7s ease-out forwards;
   animation-delay: calc(0.1s * var(--i));
+}
+
+.sidebar-item a {
+  text-decoration: none;
 }
 
 @keyframes fireworkItem {
