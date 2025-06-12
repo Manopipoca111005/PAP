@@ -612,40 +612,6 @@ body {
   }
 }
 
-.notification {
-  position: fixed;
-  top: 20px;
-  right: 20px;
-  padding: 15px 25px;
-  border-radius: 8px;
-  color: white;
-  z-index: 1002;
-  box-shadow: var(--shadow);
-  animation: fireworkNotification 0.4s ease-out;
-}
-
-@keyframes fireworkNotification {
-  0% {
-    opacity: 0;
-    transform: scale(0.5) rotate(0deg);
-  }
-  50% {
-    opacity: 0.7;
-    transform: scale(1.3) rotate(10deg);
-  }
-  100% {
-    opacity: 1;
-    transform: scale(1) rotate(0deg);
-  }
-}
-
-.success {
-  background: var(--success-color);
-}
-.error {
-  background: var(--error-color);
-}
-
 .tooltip {
   position: relative;
 }
@@ -729,18 +695,33 @@ body {
   }
 }
 
-.modal,
-.details-modal {
-  background: rgba(0, 0, 0, 0.95);
+.details-modal,
+.trailer-modal,
+.tutorial-modal {
+  background: rgba(0, 0, 0, 0.92);
   border: none;
   border-radius: 15px;
-  padding: 1rem;
-  max-width: 95vw;
-  width: 95%;
-  max-height: 90vh;
+  padding: 2rem;
+  max-width: 600px;
+  width: calc(100% - 40px);
+  margin: auto;
   color: var(--text-color);
   animation: fireworkModal 0.4s ease-out;
-  overflow: hidden;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+  overflow-y: auto;
+  max-height: 90vh;
+}
+
+.details-modal::backdrop,
+.trailer-modal::backdrop,
+.tutorial-modal::backdrop {
+  background: rgba(0, 0, 0, 0.7);
+  animation: fadeInBackdrop 0.3s ease-out;
+}
+
+@keyframes fadeInBackdrop {
+    from { opacity: 0; }
+    to { opacity: 1; }
 }
 
 @keyframes fireworkModal {
@@ -758,55 +739,24 @@ body {
   }
 }
 
-.modal h2,
-.details-modal h2 {
-  font-size: 1.8rem;
-  margin-bottom: 1rem;
-}
-
-.modal p,
-.modal li,
-.details-modal p {
-  margin-bottom: 1rem;
-  line-height: 1.6;
-}
-
-.modal button,
-.details-modal button {
-  background: var(--primary-color);
-  color: var(--text-color);
-  border: none;
-  padding: 0.8rem 1.5rem;
-  border-radius: 25px;
-  cursor: pointer;
-  font-weight: 500;
-  transition: all 0.3s ease;
-}
-
-.modal button:hover,
-.details-modal button:hover {
-  background: var(--accent-color);
-  transform: scale(1.1);
-}
-
-.details-modal img {
-  width: 100%;
-  border-radius: 10px;
-  margin-bottom: 1rem;
-}
-
 .trailer-modal {
-  background: rgba(0, 0, 0, 0.9);
-  border: none;
-  border-radius: 15px;
-  padding: 2rem;
   max-width: 800px;
-  width: 90%;
-  animation: fireworkModal 0.4s ease-out;
 }
 
 .trailer-modal-content {
   position: relative;
+  padding-top: 56.25%;
+  height: 0;
+}
+
+.trailer-modal iframe {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border: none;
+  display: block;
 }
 
 .trailer-modal .close {
@@ -826,6 +776,80 @@ body {
 .trailer-modal .close:hover {
   background: var(--accent-color);
 }
+
+.details-modal img {
+  width: 100%;
+  max-width: 300px;
+  border-radius: 10px;
+  margin: 0 auto 1.5rem auto;
+  display: block;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+}
+
+.details-modal h2 {
+  font-size: 1.8rem;
+  margin-bottom: 1rem;
+}
+
+.details-modal p {
+  margin-bottom: 1rem;
+  line-height: 1.6;
+}
+
+.details-modal button {
+  background: var(--primary-color);
+  color: var(--text-color);
+  border: none;
+  padding: 0.8rem 1.5rem;
+  border-radius: 25px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: all 0.3s ease;
+  margin-top: 1rem;
+}
+
+.details-modal button:hover {
+  background: var(--accent-color);
+  transform: scale(1.1);
+}
+
+.notification {
+  position: fixed;
+  top: 80px;
+  right: 20px;
+  padding: 15px 25px;
+  border-radius: 8px;
+  color: white;
+  z-index: 1005;
+  box-shadow: var(--shadow);
+  animation: fireworkNotification 0.4s ease-out, fadeOutNotification 0.5s ease-out 2.5s forwards;
+}
+
+@keyframes fireworkNotification {
+  0% {
+    opacity: 0;
+    transform: scale(0.5) rotate(0deg);
+  }
+  50% {
+    opacity: 0.7;
+    transform: scale(1.3) rotate(10deg);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1) rotate(0deg);
+  }
+}
+
+@keyframes fadeOutNotification {
+    to {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+}
+
+.notification.success { background: var(--success-color); }
+.notification.error { background: var(--error-color); }
+.notification.info { background: #2196F3; }
 
 .bottom-nav {
   display: none;

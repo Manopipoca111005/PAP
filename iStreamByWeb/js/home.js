@@ -4,7 +4,6 @@ const IMAGE_BASE_URL = "https://image.tmdb.org/t/p/w500";
 
 let watchLaterList = JSON.parse(localStorage.getItem("watchLater")) || [];
 let currentTrailerKey = "";
-let currentSearchResults = [];
 
 const debounce = (func, wait) => {
     let timeout;
@@ -26,33 +25,11 @@ function handleMediaClick(item, type) {
     }
 }
 
-function handleSearchItemClick(index) {
-    const item = currentSearchResults[index];
-    if (item) {
-        handleMediaClick(item, item.media_type);
-    }
-}
-
-function showDetailsByIndex(index) {
-    const item = currentSearchResults[index];
-    if (item) {
-        showDetails(item, item.media_type);
-    }
-}
-
-function addToWatchLaterByIndex(index) {
-    const item = currentSearchResults[index];
-    if (item) {
-        addToWatchLater(item, item.media_type);
-    }
-}
-
 async function handleSearch(query) {
     const mainContainer = document.querySelector('.main');
     const heroBanner = document.querySelector('.hero-banner');
-    const originalSections = mainContainer.querySelectorAll('.section');
+    const originalSections = mainContainer.querySelectorAll('.section:not(#search-results-section)');
     let searchSection = document.getElementById('search-results-section');
-    currentSearchResults = [];
 
     if (!query) {
         if (searchSection) searchSection.remove();
@@ -95,28 +72,29 @@ async function handleSearch(query) {
             return;
         }
         
-        for (const item of results) {
-             let imdbId = "";
+        const fullResults = await Promise.all(results.map(async item => {
             if (item.id && item.media_type) {
                 try {
                     const externalIdsResponse = await fetch(`${BASE_URL}/${item.media_type}/${item.id}/external_ids?api_key=${API_KEY}`);
-                    if (externalIdsResponse.ok) imdbId = (await externalIdsResponse.json()).imdb_id || "";
+                    if (externalIdsResponse.ok) {
+                        item.imdb_id = (await externalIdsResponse.json()).imdb_id || "";
+                    }
                 } catch (e) { console.warn('Could not fetch external ID.'); }
             }
-            item.imdb_id = imdbId;
-            currentSearchResults.push(item);
-        }
+            return item;
+        }));
 
-        resultsGrid.innerHTML = currentSearchResults.map((item, index) => {
+        resultsGrid.innerHTML = fullResults.map((item, index) => {
             const poster = `${IMAGE_BASE_URL}${item.poster_path}`;
             const titleText = item.title || item.name || "Untitled";
+            const itemJSON = JSON.stringify(item).replace(/'/g, "&#39;");
             return `
                 <article class="movie-card" style="--i: ${index + 1};">
                     <img src="${poster}" alt="${titleText} Poster">
                     <div class="carousel-item-overlay">
-                        <button onclick='handleSearchItemClick(${index})'>Play</button>
-                        <button onclick='showDetailsByIndex(${index})'>View Details</button>
-                        <button onclick='addToWatchLaterByIndex(${index})'>Add to Watch Later</button>
+                        <button class="play-btn" data-item='${itemJSON}'>Play</button>
+                        <button class="details-btn" data-item='${itemJSON}'>View Details</button>
+                        <button class="watch-later-btn" data-item='${itemJSON}'>Add to Watch Later</button>
                     </div>
                     <div class="carousel-item-content">
                         <h3>${titleText}</h3>
@@ -124,6 +102,8 @@ async function handleSearch(query) {
                     </div>
                 </article>`;
         }).join('');
+
+        addEventListenersToContainer('search-results-grid');
 
     } catch (error) {
         resultsGrid.innerHTML = `<p class="error-message">Error loading results.</p>`;
@@ -157,6 +137,40 @@ function playMovie(imdbId, type, title, poster, season, episode) {
         playerUrl += `&season=${season}&episode=${episode}`;
     }
     window.open(playerUrl, '_blank');
+}
+
+function addEventListenersToContainer(containerId) {
+    const container = document.getElementById(containerId);
+    if (!container) return;
+
+    if (container.dataset.listenerAttached) {
+        return;
+    }
+
+    container.addEventListener('click', (event) => {
+        const button = event.target.closest('button[data-item]');
+        if (!button) return;
+
+        const itemDataString = button.dataset.item;
+        if (!itemDataString) return;
+
+        try {
+            const itemData = JSON.parse(itemDataString);
+            const itemType = itemData.media_type || (itemData.title ? 'movie' : 'tv');
+
+            if (button.classList.contains('play-btn')) {
+                handleMediaClick(itemData, itemType);
+            } else if (button.classList.contains('details-btn')) {
+                showDetails(itemData, itemType);
+            } else if (button.classList.contains('watch-later-btn')) {
+                addToWatchLater(itemData, itemType);
+            }
+        } catch (e) {
+            console.error("Failed to parse item data from data-item attribute", e);
+        }
+    });
+
+    container.dataset.listenerAttached = 'true';
 }
 
 async function fetchMovies(endpoint, containerId, type) {
@@ -194,13 +208,14 @@ async function fetchMovies(endpoint, containerId, type) {
     container.innerHTML = itemsWithImdb.map((item, index) => {
         const poster = item.poster_path ? `${IMAGE_BASE_URL}${item.poster_path}` : "https://via.placeholder.com/200x280?text=No+Poster";
         const titleText = item.title || item.name || "Untitled";
+        const itemJSON = JSON.stringify(item).replace(/'/g, "&#39;");
         return `
             <div class="carousel-item" style="--i: ${index + 1};">
                 <img src="${poster}" alt="${titleText} Poster">
                 <div class="carousel-item-overlay">
-                    <button onclick='handleMediaClick(${JSON.stringify(item).replace(/'/g, "\\'")}, "${item.media_type}")'>Play</button>
-                    <button onclick='showDetails(${JSON.stringify(item).replace(/'/g, "\\'")}, "${item.media_type}")'>View Details</button>
-                    <button onclick='addToWatchLater(${JSON.stringify(item).replace(/'/g, "\\'")}, "${item.media_type}")'>Add to Watch Later</button>
+                    <button class="play-btn" data-item='${itemJSON}'>Play</button>
+                    <button class="details-btn" data-item='${itemJSON}'>View Details</button>
+                    <button class="watch-later-btn" data-item='${itemJSON}'>Add to Watch Later</button>
                 </div>
                 <div class="carousel-item-content">
                     <h3>${titleText}</h3>
@@ -209,6 +224,7 @@ async function fetchMovies(endpoint, containerId, type) {
             </div>`;
     }).join('');
 
+    addEventListenersToContainer(containerId);
     spinner.classList.remove("active");
   } catch (error) {
     console.error(`Error loading content for ${containerId}:`, error);
@@ -250,10 +266,11 @@ async function fetchEpisodes(seriesId, seasonNumber, seriesImdbId, seasonButton)
     episodesList.innerHTML = '<div class="loading-spinner active"><i class="fas fa-spinner fa-spin"></i></div>';
 
     document.querySelectorAll('#seasons-list button').forEach(btn => btn.classList.remove('active'));
-    seasonButton.classList.add('active');
+    if (seasonButton) {
+        seasonButton.classList.add('active');
+    }
 
     try {
-        // Verifica se o IMDb ID está presente; caso não esteja, busca-o
         if (!seriesImdbId) {
             try {
                 const externalIdsResponse = await fetch(`${BASE_URL}/tv/${seriesId}/external_ids?api_key=${API_KEY}`);
@@ -275,10 +292,17 @@ async function fetchEpisodes(seriesId, seasonNumber, seriesImdbId, seasonButton)
         episodesList.innerHTML = seasonDetails.episodes.map(episode => {
             const title = `${episode.episode_number}. ${episode.name}`;
             const fullTitle = `${seasonDetails.name} - ${title}`;
-            return `<button class="episode-button" onclick="playMovie('${seriesImdbId}', 'series', '${encodeURIComponent(fullTitle)}', '${encodeURIComponent(poster)}', ${seasonNumber}, ${episode.episode_number})">
-                        <span>${title}</span>
-                        <i class="fas fa-play play-icon"></i>
-                    </button>`;
+            return `
+                <button class="episode-button" 
+                        data-imdb-id="${seriesImdbId}" 
+                        data-type="series" 
+                        data-title="${fullTitle.replace(/"/g, '&quot;')}" 
+                        data-poster="${poster}" 
+                        data-season="${seasonNumber}" 
+                        data-episode="${episode.episode_number}">
+                    <span>${title}</span>
+                    <i class="fas fa-play play-icon"></i>
+                </button>`;
         }).join('');
     } catch (error) {
         console.error('Error fetching episodes:', error);
@@ -286,24 +310,22 @@ async function fetchEpisodes(seriesId, seasonNumber, seriesImdbId, seasonButton)
     }
 }
 
+function setupSeriesModalEventListeners() {
+    const episodesList = document.getElementById('episodes-list');
+    if (episodesList) {
+        episodesList.addEventListener('click', (event) => {
+            const button = event.target.closest('.episode-button');
+            if (!button) return;
 
+            const { imdbId, type, title, poster, season, episode } = button.dataset;
+            playMovie(imdbId, type, title, poster, season, episode);
+        });
+    }
+}
 
 function scrollCarousel(containerId, scrollAmount) {
   const container = document.getElementById(containerId);
   if (container) container.scrollBy({ left: scrollAmount, behavior: "smooth" });
-}
-
-async function fetchTrailer(id, typeForAPI) {
-  try {
-    const response = await fetch(`${BASE_URL}/${typeForAPI}/${id}/videos?api_key=${API_KEY}&language=en-US`);
-    if (!response.ok) throw new Error(`Failed to fetch videos`);
-    const data = await response.json();
-    const trailer = data.results.find(v => v.type === "Trailer" && v.site === "YouTube" && v.key) || data.results.find(v => v.site === "YouTube" && v.key);
-    currentTrailerKey = trailer ? trailer.key : "";
-  } catch (error) {
-    console.error("Error fetching trailer:", error.message);
-    currentTrailerKey = "";
-  }
 }
 
 function playTrailer() {
@@ -327,26 +349,42 @@ function closeTrailerModal() {
 }
 
 async function showDetails(itemData, type) {
-  const modal = document.getElementById("details-modal");
-  if (!modal) return;
-  
-  const title = itemData.title || itemData.name || "No Title";
-  document.getElementById("details-title").textContent = title;
-  document.getElementById("details-poster").src = itemData.poster_path ? `${IMAGE_BASE_URL}${itemData.poster_path}` : "https://via.placeholder.com/300x450?text=No+Poster";
-  document.getElementById("details-poster").alt = `${title} Poster`;
-  document.getElementById("details-overview").textContent = itemData.overview || "No overview available.";
-  document.getElementById("details-rating").textContent = (itemData.vote_average ? itemData.vote_average.toFixed(1) : "N/A") + "/10";
-  document.getElementById("details-release").textContent = itemData.release_date || itemData.first_air_date || "Unknown";
+    const modal = document.getElementById("details-modal");
+    if (!modal) return;
 
-  let itemTypeForApiCall = itemData.media_type || type;
-  
-  if (itemData.id && itemTypeForApiCall) {
-    await fetchTrailer(itemData.id, itemTypeForApiCall);
-  } else {
-    currentTrailerKey = "";
-  }
-  document.getElementById("trailer-button").style.display = currentTrailerKey ? "inline-block" : "none";
-  modal.showModal();
+    document.getElementById("details-title").textContent = "Loading...";
+    document.getElementById("details-overview").textContent = "";
+    document.getElementById("trailer-button").style.display = "none";
+    modal.showModal();
+
+    try {
+        const itemId = itemData.id;
+        let itemTypeForApiCall = itemData.media_type || type;
+        if (!itemId || !itemTypeForApiCall) throw new Error("Missing ID or type for API call.");
+
+        const response = await fetch(`${BASE_URL}/${itemTypeForApiCall}/${itemId}?api_key=${API_KEY}&language=en-US&append_to_response=videos`);
+        if (!response.ok) throw new Error('Failed to fetch full details from API.');
+        
+        const details = await response.json();
+
+        const title = details.title || details.name || "No Title";
+        document.getElementById("details-title").textContent = title;
+        document.getElementById("details-poster").src = details.poster_path ? `${IMAGE_BASE_URL}${details.poster_path}` : "https://via.placeholder.com/300x450?text=No+Poster";
+        document.getElementById("details-poster").alt = `${title} Poster`;
+        document.getElementById("details-overview").textContent = details.overview || "No overview available.";
+        document.getElementById("details-rating").textContent = (details.vote_average ? details.vote_average.toFixed(1) : "N/A") + "/10";
+        document.getElementById("details-release").textContent = details.release_date || details.first_air_date || "Unknown";
+
+        const trailer = details.videos?.results.find(v => v.type === "Trailer" && v.site === "YouTube") || details.videos?.results.find(v => v.site === "YouTube");
+        currentTrailerKey = trailer ? trailer.key : "";
+        document.getElementById("trailer-button").style.display = currentTrailerKey ? "inline-block" : "none";
+
+    } catch (error) {
+        console.error("Error fetching details:", error);
+        showNotification("Could not load details for this item.", "error");
+        const detailsModal = document.getElementById("details-modal");
+        if (detailsModal && detailsModal.hasAttribute('open')) detailsModal.close();
+    }
 }
 
 function addToWatchLater(itemData, type) {
@@ -385,6 +423,7 @@ document.addEventListener('DOMContentLoaded', () => {
   fetchMovies("movie/popular", "popular-movies", "movie");
   fetchMovies("tv/popular", "popular-series", "tv");
   setupSearchBar();
+  setupSeriesModalEventListeners();
 
   const themeToggle = document.querySelector(".theme-toggle");
   if(themeToggle) {
